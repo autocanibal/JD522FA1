@@ -4,13 +4,19 @@
  */
 package org.mondemkhize.jd522fa1;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  *
  * @author Monde
  */
 public class JD522FA1 {
     public static void main(String[] args) {
-        loginForm log = new loginForm();
-        log.setVisible(true);
+        RegisterForm registerForm = new RegisterForm();
+        registerForm.setVisible(true);
+    }
+    public static void errorBoxes(Component comp, String errorMessage, String errorTitle){
+        JOptionPane.showMessageDialog(comp, errorMessage, errorTitle, JOptionPane.INFORMATION_MESSAGE);
     }
 }
