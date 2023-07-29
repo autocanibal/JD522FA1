@@ -16,7 +16,5 @@ public class JD522FA1 {
         RegisterForm registerForm = new RegisterForm();
         registerForm.setVisible(true);
     }
-    public static void errorBoxes(Component comp, String errorMessage, String errorTitle){
-        JOptionPane.showMessageDialog(comp, errorMessage, errorTitle, JOptionPane.INFORMATION_MESSAGE);
-    }
+
 }

@@ -6,6 +6,7 @@ package org.mondemkhize.jd522fa1;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.*;
 
 /**
  *
@@ -39,7 +40,6 @@ public class RegisterForm extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,37 +66,31 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("ErrorMessage");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(147, 147, 147)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(jLabel6)))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(147, 147, 147)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(41, 41, 41)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField3)
+                                .addComponent(jTextField4)
+                                .addComponent(jTextField1)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,19 +115,15 @@ public class RegisterForm extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        LoginForm loginForm = new LoginForm();
-        correctUserName();
-        loginForm.setVisible(true);
-        this.dispose();
+        regUser();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -170,19 +160,87 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
     }
-    private boolean rightUsername, rightPassword;
 
-    public void correctUserName() {
+    public boolean correctUserName() {
         String username = this.jTextField3.getText();
-        if(username.length() < 8 && !username.isEmpty()){
-            JD522FA1.errorBoxes(this, "Username too long", "Long Username");
+        // Regex to check valid password.
+        String regex = "^(?=.*#)"
+                       + "(?=\\S+$).{1,8}$";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the password is empty,
+        // return false
+        if (username == null) {
+            return false;
         }
+
+        // Pattern class contains matcher() method
+        // to find matching between given password
+        // and regular expression.
+        Matcher m = p.matcher(username);
+
+        // Return if the password
+        // matched the ReGex
+        return m.matches();
     }
-    public void meetPasswordComplexity() {
+    public boolean meetPasswordComplexity() {
         String password = this.jTextField4.getText();
+        // Regex to check valid password.
+        String regex = "^(?=.*[0-9])"
+                       + "(?=.*[a-z])(?=.*[A-Z])"
+                       + "(?=.*[@#$%^&+=!~`*()])"
+                       + "(?=\\S+$).{8,}$";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the password is empty,
+        // return false
+        if (password == null) {
+            return false;
+        }
+
+        // Pattern class contains matcher() method
+        // to find matching between given password
+        // and regular expression.
+        Matcher m = p.matcher(password);
+
+        // Return if the password
+        // matched the ReGex
+        return m.matches();
+
     }
     public void regUser(){
-        
+        if(correctUserName() && meetPasswordComplexity()){
+         JOptionPane.showMessageDialog(
+                 this,
+                 "Username Accepted, Proceed\n " +
+                 "Password Accepted",
+                 "Everything all good",
+                 JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(!correctUserName()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Username does not meet the criteria, please ensure that" +
+                            "your username contains an pound sign and is no more than 8" +
+                            "characters in length .",
+                    "Username bad",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+        else if(!meetPasswordComplexity()){
+         JOptionPane.showMessageDialog(
+                 this,
+                 "Password not Accepted, please check that you have met all the criteria required",
+                 "Password bad",
+                 JOptionPane.INFORMATION_MESSAGE
+         );
+        }else {
+            JOptionPane.showMessageDialog(this, String.valueOf(correctUserName()));
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -192,7 +250,6 @@ public class RegisterForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
